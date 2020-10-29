@@ -1,0 +1,7 @@
+{
+  "name": "euro-price-notification",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
