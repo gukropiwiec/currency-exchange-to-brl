@@ -1,4 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { environment } from '../../environments/environment.prod';
+import { Plugins } from '@capacitor/core';
+
+const { LocalNotifications } = Plugins;
 
 @Component({
   selector: 'app-home',
@@ -6,7 +11,67 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  bid: string;
+  selected = 'EUR';
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
+  ionViewWillEnter() {
+    this.getData();
+    setInterval(() => { this.getData(); }, 3600000);
+    setTimeout(() => {
+      this.notify();
+    }, 5000);
+  }
+
+  getData() {
+    try {
+      this.http.get(environment.API_URL).subscribe((res: any) => {
+        switch (this.selected) {
+          case 'EUR':
+            this.bid = res.EUR.bid;
+            break;
+          case 'USD':
+            this.bid = res.USD.bid;
+            break;
+          case 'CAD':
+            this.bid = res.CAD.bid;
+            break;
+          case 'GBP':
+            this.bid = res.GBP.bid;
+            break;
+          case 'ARS':
+            this.bid = res.ARS.bid;
+            break;
+          case 'JPY':
+            this.bid = res.JPY.bid;
+            break;
+          default:
+            this.bid = res.EUR.bid;
+            break;
+        }
+        localStorage.setItem('lastBid', this.bid);
+      });
+    } catch (error) {
+      this.bid = localStorage.getItem('lastBid');
+    }
+  }
+
+  async notify() {
+    const notifs = await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'EUR-BRL X-RATE',
+          body: this.bid,
+          id: 1,
+          schedule: { repeats: true, on: { hour: 8, minute: 15 } },
+        }
+      ]
+    });
+  }
+
+  selectExchange(event) {
+    this.selected = event.target.value;
+    this.getData();
+  }
 }
