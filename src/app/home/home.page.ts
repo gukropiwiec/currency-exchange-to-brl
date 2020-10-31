@@ -18,10 +18,10 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.getData();
-    setInterval(() => { this.getData(); }, 3600000);
-    setTimeout(() => {
+    setInterval(() => {
+      this.getData();
       this.notify();
-    }, 5000);
+    }, 3600000);
   }
 
   getData() {
@@ -61,10 +61,16 @@ export class HomePage {
     const notifs = await LocalNotifications.schedule({
       notifications: [
         {
-          title: 'EUR-BRL X-RATE',
+          title: `${this.selected}-BRL X-RATE`,
           body: this.bid,
           id: 1,
           schedule: { repeats: true, on: { hour: 8, minute: 15 } },
+        },
+        {
+          title: `${this.selected}-BRL X-RATE`,
+          body: this.bid,
+          id: 2,
+          schedule: { repeats: true, on: { hour: 17, minute: 15 } },
         }
       ]
     });
