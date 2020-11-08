@@ -11,12 +11,26 @@
 ion-select {
   margin: auto 140px;
   outline: auto;
+  --placeholder-color: white;
+  --placeholder-opacity: 1;
 }
 
+.align-start {
+  text-align: start;
+}
+
+ion-icon {
+  border-color: white;
+  border: 2px solid;
+  padding: 5px;
+  border-radius: 30px;
+  fill: white;
+  margin: auto 15% auto 20%;
+}
 
 .div-input {
   width: 20%;
-  margin: auto;
+  margin: 100px auto auto auto;
   font-weight: bold;
 
   ion-input {

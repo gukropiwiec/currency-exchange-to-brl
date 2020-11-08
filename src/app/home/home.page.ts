@@ -13,6 +13,8 @@ const { LocalNotifications } = Plugins;
 export class HomePage {
   bid: any;
   selected = 'EUR';
+  lastNBRL = 'EUR';
+  previewSelected = 'BRL';
   numberSelected = 1;
 
   constructor(private http: HttpClient) {}
@@ -46,6 +48,9 @@ export class HomePage {
           case 'JPY':
             this.bid = res.JPY.bid;
             break;
+          case 'BRL':
+            this.calculateBRL(res);
+            break;
           default:
             this.bid = res.EUR.bid;
             break;
@@ -54,6 +59,32 @@ export class HomePage {
       });
     } catch (error) {
       this.bid = localStorage.getItem('lastBid');
+    }
+  }
+
+  calculateBRL(allBids) {
+    switch (this.lastNBRL) {
+      case 'EUR':
+        this.bid = 1 / allBids.EUR.bid;
+        break;
+      case 'USD':
+        this.bid = 1 / allBids.USD.bid;
+        break;
+      case 'CAD':
+        this.bid = 1 / allBids.CAD.bid;
+        break;
+      case 'GBP':
+        this.bid = 1 / allBids.GBP.bid;
+        break;
+      case 'ARS':
+        this.bid = 1 / allBids.ARS.bid;
+        break;
+      case 'JPY':
+        this.bid = 1 / allBids.JPY.bid;
+        break;
+      default:
+        this.bid = 1 / allBids.EUR.bid;
+        break;
     }
   }
 
@@ -77,11 +108,29 @@ export class HomePage {
   }
 
   selectExchange(event) {
+    console.log(this.previewSelected);
+
+    if (this.selected !== 'BRL' && this.previewSelected === 'BRL') {
+      console.log('ok');
+
+    }
+
     this.selected = event.target.value;
     this.getData();
   }
 
   numberChange(value) {
     this.numberSelected = Number(value);
+  }
+
+  changeType() {
+    if (this.selected !== 'BRL') {
+      this.previewSelected = this.selected;
+      this.lastNBRL = this.selected;
+      this.selected = 'BRL';
+    } else {
+      this.previewSelected = 'BRL';
+      this.selected = this.lastNBRL;
+    }
   }
 }
