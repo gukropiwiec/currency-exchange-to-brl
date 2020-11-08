@@ -5,7 +5,13 @@
     </ion-select>
     <h3 style="font-size: 2em">=</h3>
     <div>
-      <h1 style="font-size: 4em">{{ bid | currency: 'BRL' }}</h1>
+      <h1 style="font-size: 4em; margin-top: 10px; margin-bottom: 20px;">{{ bid | currency: 'BRL' }}</h1>
+    </div>
+    <div class="div-input">
+      <ion-input type="number" [value]="numberSelected" (ionChange)="numberChange($event.target.value)"></ion-input>
+    </div>
+    <div>
+      <h1 style="font-size: 3em">{{ bid * numberSelected | currency: 'BRL' }}</h1>
     </div>
   </div>
   <div id="container" *ngIf="!bid">

@@ -11,17 +11,17 @@ const { LocalNotifications } = Plugins;
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  bid: string;
+  bid: any;
   selected = 'EUR';
+  numberSelected = 1;
 
   constructor(private http: HttpClient) {}
 
   ionViewWillEnter() {
     this.getData();
-    setInterval(() => {
-      this.getData();
+    setTimeout(() => {
       this.notify();
-    }, 3600000);
+    }, 5000);
   }
 
   getData() {
@@ -61,16 +61,16 @@ export class HomePage {
     const notifs = await LocalNotifications.schedule({
       notifications: [
         {
-          title: `${this.selected}-BRL X-RATE`,
+          title: `LAST BID: ${this.selected}-BRL EXCHANGE RATE`,
           body: this.bid,
           id: 1,
           schedule: { repeats: true, on: { hour: 8, minute: 15 } },
         },
         {
-          title: `${this.selected}-BRL X-RATE`,
+          title: `LAST BID: ${this.selected}-BRL EXCHANGE RATE`,
           body: this.bid,
           id: 2,
-          schedule: { repeats: true, on: { hour: 17, minute: 15 } },
+          schedule: { repeats: true, on: { hour: 17, minute: 30 } },
         }
       ]
     });
@@ -79,5 +79,9 @@ export class HomePage {
   selectExchange(event) {
     this.selected = event.target.value;
     this.getData();
+  }
+
+  numberChange(value) {
+    this.numberSelected = Number(value);
   }
 }

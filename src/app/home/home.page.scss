@@ -12,3 +12,15 @@ ion-select {
   margin: auto 140px;
   outline: auto;
 }
+
+
+.div-input {
+  width: 20%;
+  margin: auto;
+  font-weight: bold;
+
+  ion-input {
+    outline: auto;
+    --padding-start: 0px;
+  }
+}

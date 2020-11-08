@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { Plugins } from '@capacitor/core';
-const { SplashScreen } = Plugins;
+const { SplashScreen, App } = Plugins;
 
 @Component({
   selector: 'app-root',
@@ -14,9 +14,20 @@ const { SplashScreen } = Plugins;
 export class AppComponent {
   constructor(
     private platform: Platform,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private popoverCtrl: PopoverController
   ) {
     this.initializeApp();
+    this.platform.backButton.subscribe(async () => {
+      const element = await this.popoverCtrl.getTop();
+      if (element) {
+          element.dismiss();
+          return;
+      }
+
+      App.exitApp();
+    });
+
   }
 
   initializeApp() {
