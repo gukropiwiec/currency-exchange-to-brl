@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { environment } from '../../environments/environment.prod';
-import { Plugins } from '@capacitor/core';
-
-const { LocalNotifications } = Plugins;
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -21,9 +18,6 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.getData();
-    setTimeout(() => {
-      this.notify();
-    }, 5000);
   }
 
   getData() {
@@ -88,31 +82,8 @@ export class HomePage {
     }
   }
 
-  async notify() {
-    const notifs = await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: `LAST BID: ${this.selected}-BRL EXCHANGE RATE`,
-          body: this.bid,
-          id: 1,
-          schedule: { repeats: true, on: { hour: 8, minute: 15 } },
-        },
-        {
-          title: `LAST BID: ${this.selected}-BRL EXCHANGE RATE`,
-          body: this.bid,
-          id: 2,
-          schedule: { repeats: true, on: { hour: 17, minute: 30 } },
-        }
-      ]
-    });
-  }
-
   selectExchange(event) {
-    console.log(this.previewSelected);
-
     if (this.selected !== 'BRL' && this.previewSelected === 'BRL') {
-      console.log('ok');
-
     }
 
     this.selected = event.target.value;

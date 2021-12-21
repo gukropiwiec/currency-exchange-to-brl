@@ -1,9 +1,11 @@
 <ion-content [fullscreen]="true">
   <div *ngIf="bid" id="container">
-    <ion-select [value]="selected" placeholder="BRL" interface="popover" (ionChange)="selectExchange($event)">
-      <ion-select-option *ngFor="let option of ['EUR', 'USD', 'CAD', 'GBP', 'ARS', 'JPY']" value="{{ option }}">{{ option }}</ion-select-option>
-    </ion-select>
-    <h3 style="font-size: 2em" class="align-start"><ion-icon src="../../assets/icon/transfer.svg" (click)="changeType()"></ion-icon>=</h3>
+    <div class="div-select">
+      <ion-select [value]="selected" placeholder="BRL" interface="popover" (ionChange)="selectExchange($event)">
+        <ion-select-option *ngFor="let option of ['EUR', 'USD', 'CAD', 'GBP', 'ARS', 'JPY']" value="{{ option }}">{{ option }}</ion-select-option>
+      </ion-select>
+      <h3 style="font-size: 2em" class="align-start"><ion-icon src="assets/icon/transfer.svg" (click)="changeType()"></ion-icon>=</h3>
+    </div>
     <div>
       <h1 style="font-size: 4em; margin-top: 10px; margin-bottom: 20px;">{{ bid | currency: previewSelected }}</h1>
     </div>
